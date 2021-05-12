@@ -1,0 +1,316 @@
+<html>
+    <head>
+        <title>Bite Metronome</title>
+        <style>
+            * {
+                font-size: 4.5vw;
+            }
+
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+                background-image: linear-gradient(lightblue, green);
+                padding: 0px;
+                margin: 0px;
+            }
+
+            .titleSection {
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                margin-top:10px;
+                margin-bottom: 20px;
+            }
+
+            .title {
+                font-weight:700;
+                font-size: 230%
+            }
+
+            .startButton {
+                font-size: 230%;
+                font-weight: 500;
+                padding: 10px;
+                border-radius: 4vw;
+                width:40vw;
+                height:20vw;
+                background: #bbffbb;
+            }
+
+            .incrementButton {
+                font-size: 120%;
+                font-weight: 500;
+                padding: 3px;
+                height: 8vw;
+                width: 9vw;
+                border-radius: 2vw;
+                background: #bbb;
+            }
+
+            .instructions {
+                margin: 20px;
+                background: #55ff5522;
+                padding: 20px;
+            }
+
+            .instructions p,a,li {
+                font-size: 3vw;
+            }
+
+            .divrow {
+                display: flex;
+                flex-wrap: nowrap;
+            }
+
+            .timeGroup{
+                margin: 20px;
+                padding: 30px;
+            }
+
+            .bell {
+                height: 100px;
+            }
+
+            .settingsSection {
+                border: 2px solid gray;
+                margin: 10px;
+                padding: 10px;
+                background: #cccccc66;
+            }
+
+            .timeleftSection {
+                width:100%;
+                border: 1px solid black;
+                align-items:center;
+                width: 60vw;
+            }
+
+            .timeLeft{
+                font-weight: 800;
+                width: 100%;
+                text-align: center;
+                font-size: 220%;
+            }
+
+            .dropbtn {
+                background-color: #333;
+                color: white;
+                padding: 3px;
+                border: none;
+                cursor: pointer;
+                font-size: 120%;            }
+
+            .dropbtn:hover, .dropbtn:focus {
+                background-color: #2980B9;
+            }
+
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f1f1f1;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            .dropdown-item {
+                font-size: 120%;
+            }
+
+            .dropdown-item:hover {
+                background:red;
+                cursor: pointer;
+            }
+
+            .dropdown-content a:hover {background-color: #ddd}
+
+            .show {display:block;}
+        </style>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-K9MTGVZH2Y"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-K9MTGVZH2Y');
+        </script>
+    </head>
+    <body>
+        <div id="thebackground" style="padding:10px;">
+            <div class="titleSection">
+                <div class="title">Bite Metronome</div>
+                <div>for mindful eating</div>
+            </div>
+
+            <div class="divrow">
+                <button id="startbutton" class="startButton" onclick="startTiming()" style="margin-right:30px" >Start</button>
+                <div class="timeleftSection">
+                    <div style="font-size: 4vw;width: 100%;text-align:center;">Seconds until next bite:</div>
+                    <div id="timeleft" class="timeLeft"></div>
+                
+                </div>
+            </div>
+            <div class="settingsSection divrow">
+                <div style="font-size:60%;margin-right:20px">Settings:</div>
+                <div>
+                    <div class="divrow" style="align-items:center;margin-bottom: 2vw;">
+                        <div style="width:31vw">Seconds/bite:</div>
+                        <button class="incrementButton" onclick="lessTime()">&#9660;</button>
+                        <div id="secondsPerBite" style="font-size:140%;font-weight:800;width:16vw;text-align:center;"></div>
+                        <button class="incrementButton" onclick="moreTime()">&#9650;</button>
+                    </div>
+                    
+                    <div class="divrow">
+                        <div style="width:31vw;">Bell Sound: </div>
+                        <div class="dropdown">
+                            <button onclick="soundDropdownClick()" class="dropbtn" id="DropdownLabel" style="width:34vw"></button>
+                            <div id="myDropdown" class="dropdown-content">
+                                <div class="dropdown-item "onclick="soundDropdownItemClick('Ding')">Ding</div>
+                                <div class="dropdown-item" onclick="soundDropdownItemClick('Gong')">Gong</div>
+                                <div class="dropdown-item" onclick="soundDropdownItemClick('Tamborine')">Tamborine</div>
+                                <div class="dropdown-item" onclick="soundDropdownItemClick()">-None-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="instructions" id="InstructionsDiv">
+                <p>How to use Bite Metronome:</p>
+                <ol>
+                    <li>Get some delicious and healthy food ready.
+                    <li>Find a place to eat. Ideally away from work, tasks and distractions, perhaps on the grass outside or a quiet table with a friend. </li>
+                    <li>Press the "Start" button to begin the metrome.</li>
+                    <li>Take a full bite each time the metronome bell rings and chew slowly to savor it.  Think about the food - the texture, the flavor, the sound - make the food the experience.</li>
+                    <li>Try this routine with each meal for a few weeks until you are naturally mindful about your eating</li>
+                </ol>
+                <p><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5556586/">Mindful eating</a> is a process to 
+                help you enjoy your food more with many side benefits such as better health and weight loss.  I wrote Bite
+                Metronome as part of a <a href="https://www.noom.com">Noom</a> challenge to train myself out of some unhelpful eating habits such as eating too fast and multitasking
+                while I eat.  Maybe it will help you too!</p>
+            </div>
+        </div>
+    </body>
+</html>
+
+<script>
+/* TODO
+    ....
+*/
+    var startTime;
+    var isRunning= false;
+    var secondsPerBite = parseInt(storedValue("secondsPerBite", "30")) 
+    if(secondsPerBite < 5) secondsPerBite = 5;
+    if(secondsPerBite > 120) secondsPerBite = 120;
+    document.getElementById("secondsPerBite").innerText = secondsPerBite;
+
+    var soundName = storedValue("soundName", "Ding") 
+    document.getElementById("DropdownLabel").innerText = soundName;
+    var bellSound = new Audio(`bell${soundName}.mp3`);
+    
+    class Glyphs
+    {
+        static downDown = String.fromCodePoint(0x23EC)          // ⏬
+        static upup = String.fromCodePoint(0x23EB)              // ⏫ 
+    }
+
+    function storedValue(name,defaultValue)
+    {
+        const val = localStorage.getItem(name) ;
+        return val ?? defaultValue;
+    }
+
+    function soundDropdownClick()
+    {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    function soundDropdownItemClick(soundName)
+    {
+        document.getElementById("DropdownLabel").innerText = soundName ?? "silent";
+        if(soundName)
+        {
+            bellSound = new Audio(`bell${soundName}.mp3`);
+            bellSound.play();
+        }
+        else {
+            bellSound = undefined;
+        }
+
+        localStorage.setItem("soundName", soundName)
+    }
+
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+
+
+    function lessTime()
+    {
+        secondsPerBite -= 5;
+        if(secondsPerBite < 5) secondsPerBite = 5;
+        localStorage.setItem("secondsPerBite",secondsPerBite);
+        document.getElementById("secondsPerBite").innerText = secondsPerBite;
+    }
+
+    function moreTime()
+    {
+        secondsPerBite += 5;
+        if(secondsPerBite > 120) secondsPerBite = 120;
+        localStorage.setItem("secondsPerBite",secondsPerBite);
+        document.getElementById("secondsPerBite").innerText = secondsPerBite;
+    }
+
+    function updateTimer() 
+    {
+        const elapsed = Date.now() - startTime;
+        const opacity = Math.max(0, 1 - elapsed/1500);
+        const secondsUntilNextBite = Math.max(0,secondsPerBite - elapsed/1000);
+
+        if(secondsUntilNextBite === 0) {
+            startTime = Date.now();
+            if(bellSound) bellSound.play();
+        }
+        //document.getElementById("bellpic").style = `opacity:${opacity}`;
+        document.getElementById("thebackground").style = `background:rgba(255,255,255,${opacity});padding:10px`;
+        document.getElementById("timeleft").innerText = secondsUntilNextBite.toFixed(1)
+        if(isRunning) setTimeout(() => {updateTimer()}, 30)  
+    }
+
+    function startTiming()
+    {
+        if(isRunning){
+            isRunning = false;
+            document.getElementById("startbutton").innerText = "Start";
+        }
+        else {
+            //document.getElementById("startbutton").disabled = true;
+            document.getElementById("startbutton").innerText = "Stop";
+            isRunning = true;
+            startTime = Date.now();
+            bellSound.play();
+            setTimeout(() => {updateTimer()}, 100)    
+        }
+    }
+
+</script>        
