@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Bite Metronome</title>
+        <style>
+            * {
+                font-size: 4.5vw;
+            }
+
+            @font-face {
+                font-family: digital;
+                src: url(digital7mono.ttf);
+                /* src: url(HighlandGothicLightFLF.ttf); */
+            }
+
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+                background-image: linear-gradient(black, darkblue);
+                color: white;
+                padding: 0px;
+                margin: 0px;
+                display: flex;
+            } 
+
+            .timeDisplay {
+                font-size: 400%;
+            }
+
+            .timePart {
+                font-family: digital;
+                font-size: 190%;
+            }
+
+
+            .title {
+                font-weight:700;
+                font-size: 230%
+            }
+
+            .instructions {
+                margin: 20px;
+                background: #55ff5522;
+                padding: 20px;
+            }
+
+            .instructions p,a,li {
+                font-size: 3vw;
+            }
+
+            .divrow {
+                display: flex;
+                flex-wrap: nowrap;
+            }
+
+        </style>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-YVWP3PZQ50"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-YVWP3PZQ50');
+        </script>
+    </head>
+    <body>
+        <div id="thebackground" style="padding:10px;">
+            <div class="timeDisplay divrow">
+                <div id="beattime" class="timePart">888</div>
+                <div>B</div>
+            </div>
+            <div id="beatmonth">Aeon 14</div>
+        </div>
+    </body>
+</html>
+
+<script>
+/* TODO
+    ....
+*/
+    //var bellSound = new Audio(`bellDing.mp3`);
+    var months = ["Aeon","Beton","Circua","Delphos","Elipos","Firta","Gilleon","Hephos","Ibrua","Jaspon","Kak","Lumos","Menon","Neprua","Ovos","Picon","Quaz","Revula","Sich","Teon","Uvon","Ved","Wepos","Xix","Yolo","Zedon","Jubilary"]
+    
+    function getBeatTime() {
+        var now = new Date();
+        var secs = now.getSeconds() + (60 * now.getMinutes()) + (60 * 60 * now.getHours());
+        var startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDay());
+        var startOfYear = new Date(now.getFullYear(), 0, 0);
+        var diff = now - startOfYear;
+        var oneDay = 1000 * 60 * 60 * 24;
+        var oneBeat = oneDay / 1000;
+        var day = Math.floor(diff / oneDay);
+
+        var beatMonth = Math.floor(day/14);
+        var dayOfMonth = Math.floor(day) - beatMonth * 14;
+        var beatTime = (diff - Math.floor(day) * oneDay)/oneBeat;
+
+        return {beatMonth, beatTime, dayOfMonth}
+    }
+ 
+    function handleTick() {
+        var beat = getBeatTime();
+        document.getElementById("beattime").innerText = beat.beatTime.toFixed(2);
+        document.getElementById("beatmonth").innerText = `${months[beat.beatMonth]} ${beat.dayOfMonth + 1}`;
+  
+    }
+
+    setInterval(handleTick,200)
+
+</script>        
