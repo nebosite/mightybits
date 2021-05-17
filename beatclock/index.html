@@ -23,12 +23,23 @@
             } 
 
             .timeDisplay {
-                font-size: 400%;
+                display: flex;
+                font-size: 430%;
+                align-items: flex-end;
+                justify-content: center;
+                width:100%;
+
             }
 
             .timePart {
                 font-family: digital;
                 font-size: 190%;
+            }
+
+            .secondsPart {
+                font-family: digital;
+                font-size: 120%;
+                padding-bottom: 2vw;
             }
 
 
@@ -52,6 +63,16 @@
                 flex-wrap: nowrap;
             }
 
+            .popupButton {
+                background: #00000000;
+                color: white;
+                border: 1px solid gray;
+                opacity: 30%;
+                border-radius: 1.5vw;
+                padding: 1vw;
+                font-size: 2vw;
+            }
+
         </style>
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-YVWP3PZQ50"></script>
@@ -64,10 +85,15 @@
         </script>
     </head>
     <body>
-        <div id="thebackground" style="padding:10px;">
-            <div class="timeDisplay divrow">
-                <div id="beattime" class="timePart">888</div>
-                <div>B</div>
+        <div id="thebackground" style="padding:10px;width:100%">
+            <div class="divrow">
+                <button id="popupbutton" class="popupButton" onclick="openAsPopup()">Popup</button>
+            </div>
+            <div class="timeDisplay">
+                <div id="beatminute" class="timePart">888</div>
+                <div class="secondsPart">:</div>
+                <div id="beatsecond"  class="secondsPart">88</div>
+                <div style="padding-bottom:4.5vw;padding-left:1vw">B</div>
             </div>
             <div id="beatmonth">Aeon 14</div>
         </div>
@@ -81,6 +107,17 @@
     //var bellSound = new Audio(`bellDing.mp3`);
     var months = ["Aeon","Beton","Circua","Delphos","Elipos","Firta","Gilleon","Hephos","Ibrua","Jenu","Kak","Lumos","Menon","Neprua","Ovos","Picon","Quaz","Revula","Sich","Teon","Uvon","Ved","Wepos","Xix","Yolo","Zedon","Jubilary"]
     
+    if (window.opener) {
+        console.log('Popup Mode');
+        const button = document.getElementById('popupbutton')
+        if(button) button.remove()
+
+    } else if (window.top !== window.self) {
+        // iframe
+    } else {
+        // top level window
+    }
+
     function getBeatTime() {
         var ticksPerDay = 1000 * 60 * 60 * 24;
         var ticksPerBeat = ticksPerDay / 1000;
@@ -105,12 +142,17 @@
         if(newTime != lastTime)
         {
             lastTime = newTime;
-            document.getElementById("beattime").innerText = newTime;
+            document.getElementById("beatminute").innerText = Math.floor(newTime);
+            document.getElementById("beatsecond").innerText = (newTime - Math.floor(newTime)).toFixed(2).substr(2);
             document.title = "Beat Clock: " + newTime;
             document.getElementById("beatmonth").innerText = `${months[beat.beatMonth]} ${beat.dayOfMonth + 1}`;
 
         }
   
+    }
+
+    function openAsPopup() {
+        window.open(window.location, 'popUpWindow','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no, status=yes');
     }
 
     setInterval(handleTick,10)
