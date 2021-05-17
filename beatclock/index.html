@@ -79,21 +79,21 @@
     ....
 */
     //var bellSound = new Audio(`bellDing.mp3`);
-    var months = ["Aeon","Beton","Circua","Delphos","Elipos","Firta","Gilleon","Hephos","Ibrua","Jaspon","Kak","Lumos","Menon","Neprua","Ovos","Picon","Quaz","Revula","Sich","Teon","Uvon","Ved","Wepos","Xix","Yolo","Zedon","Jubilary"]
+    var months = ["Aeon","Beton","Circua","Delphos","Elipos","Firta","Gilleon","Hephos","Ibrua","Jenu","Kak","Lumos","Menon","Neprua","Ovos","Picon","Quaz","Revula","Sich","Teon","Uvon","Ved","Wepos","Xix","Yolo","Zedon","Jubilary"]
     
     function getBeatTime() {
+        var ticksPerDay = 1000 * 60 * 60 * 24;
+        var ticksPerBeat = ticksPerDay / 1000;
+        
         var now = new Date();
-        var secs = now.getSeconds() + (60 * now.getMinutes()) + (60 * 60 * now.getHours());
-        var startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDay());
         var startOfYear = new Date(now.getFullYear(), 0, 0);
-        var diff = now - startOfYear;
-        var oneDay = 1000 * 60 * 60 * 24;
-        var oneBeat = oneDay / 1000;
-        var day = Math.floor(diff / oneDay);
+        var ticksFromYearStart = now - startOfYear;
+        var day = Math.floor(ticksFromYearStart / ticksPerDay);
 
         var beatMonth = Math.floor(day/14);
         var dayOfMonth = Math.floor(day) - beatMonth * 14;
-        var beatTime = (diff - Math.floor(day) * oneDay)/oneBeat;
+        var startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        var beatTime = (now - startOfDay)/ticksPerBeat;
 
         return {beatMonth, beatTime, dayOfMonth}
     }
