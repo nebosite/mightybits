@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Bite Metronome</title>
+        <title>Beat Clock</title>
         <style>
             * {
                 font-size: 4.5vw;
@@ -98,13 +98,21 @@
         return {beatMonth, beatTime, dayOfMonth}
     }
  
+    var lastTime = "";
     function handleTick() {
         var beat = getBeatTime();
-        document.getElementById("beattime").innerText = beat.beatTime.toFixed(2);
-        document.getElementById("beatmonth").innerText = `${months[beat.beatMonth]} ${beat.dayOfMonth + 1}`;
+        var newTime = beat.beatTime.toFixed(2);
+        if(newTime != lastTime)
+        {
+            lastTime = newTime;
+            document.getElementById("beattime").innerText = newTime;
+            document.title = "Beat Clock: " + newTime;
+            document.getElementById("beatmonth").innerText = `${months[beat.beatMonth]} ${beat.dayOfMonth + 1}`;
+
+        }
   
     }
 
-    setInterval(handleTick,200)
+    setInterval(handleTick,10)
 
 </script>        
